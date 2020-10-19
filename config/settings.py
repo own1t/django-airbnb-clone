@@ -43,6 +43,8 @@ PROJECT_APPS = [
     "users.apps.UsersConfig",
 ]
 
+THIRD_PARTY_APPs = []
+
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
 
 MIDDLEWARE = [
@@ -125,4 +127,5 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+# Using my own user model instead of the user model provided by Django
 AUTH_USER_MODEL = "users.User"
