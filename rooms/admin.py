@@ -17,6 +17,8 @@ class RoomAdmin(admin.ModelAdmin):
 
     # https://docs.djangoproject.com/en/3.1/ref/contrib/admin/
 
+    # https://docs.djangoproject.com/en/3.1/topics/db/queries/
+
     fieldsets = (
         (
             "Basic Info",
@@ -46,7 +48,10 @@ class RoomAdmin(admin.ModelAdmin):
         "check_in",
         "check_out",
         "instant_book",
+        "count_amenities",
     )
+
+    ordering = ("name", "price")
 
     list_filter = (
         "instant_book",
@@ -62,6 +67,10 @@ class RoomAdmin(admin.ModelAdmin):
     search_fields = ("^city", "^host__username")
 
     filter_horizontal = ("amenities", "facilities", "house_rules")
+
+    def count_amenities(self, obj):
+        # print(obj.amenities.all())
+        return obj.amenities.count()
 
 
 @admin.register(models.Photo)
