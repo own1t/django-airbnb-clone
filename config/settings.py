@@ -135,3 +135,7 @@ STATIC_URL = "/static/"
 
 # Using my own user model instead of the user model provided by Django
 AUTH_USER_MODEL = "users.User"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+
+MEDIA_URL = "/media/"
