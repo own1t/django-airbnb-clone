@@ -94,6 +94,7 @@ class Room(core_models.TimeStampedModel):
     def __str__(self):
         return self.name
 
+    # Capitalize the name of the city before gets saved
     def save(self, *args, **kwargs):
         self.city = str.capitalize(self.city)
         super().save(*args, **kwargs)
