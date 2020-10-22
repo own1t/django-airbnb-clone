@@ -17,6 +17,14 @@ class ItemAdmin(admin.ModelAdmin):
         return obj.rooms.count()
 
 
+# Two ways to create inline: TabularInline, StackedInline
+
+
+class PhotoInline(admin.TabularInline):
+
+    model = models.Photo
+
+
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
 
@@ -25,6 +33,8 @@ class RoomAdmin(admin.ModelAdmin):
     # https://docs.djangoproject.com/en/3.1/ref/contrib/admin/
 
     # https://docs.djangoproject.com/en/3.1/topics/db/queries/
+
+    inlines = (PhotoInline,)
 
     fieldsets = (
         (
