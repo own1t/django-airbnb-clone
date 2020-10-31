@@ -179,7 +179,7 @@ def kakao_callback(request):
     try:
         code = request.GET.get("code")
         client_id = os.environ.get("KAKAO_ID")
-        redirect_uri = "http://airbnb-live-dev.ap-northeast-2.elasticbeanstalk.com/users/login/kakao/callback"
+        redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback"
         token_request = requests.get(
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
         )
@@ -193,22 +193,22 @@ def kakao_callback(request):
             headers={"Authorization": f"Bearer {access_token}"},
         )
         profile_json = profile_request.json()
-        email = profile_json.get("kakao_account").get("email", None)
+        email = profile_json.get("kakao_account").get("email")
         if email is None:
-            raise KakaoException("Please provide your email")
+            raise KakaoException("Please also give me your email")
         properties = profile_json.get("properties")
         nickname = properties.get("nickname")
         profile_image = properties.get("profile_image")
         try:
             user = models.User.objects.get(email=email)
-            if user.login_method != models.User.LOGING_KAKAO:
+            if user.login_method != models.User.LOGIN_KAKAO:
                 raise KakaoException(f"Please log in with: {user.login_method}")
         except models.User.DoesNotExist:
             user = models.User.objects.create(
                 email=email,
                 username=email,
                 first_name=nickname,
-                login_method=models.User.LOGING_KAKAO,
+                login_method=models.User.LOGIN_KAKAO,
                 email_verified=True,
             )
             user.set_unusable_password()
