@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from . import models
 
 
@@ -63,7 +64,7 @@ class LoginForm(forms.Form):
 #         user.save()
 
 
-class SignUpForm(forms.ModelForm):
+class SignUpForm(UserCreationForm):
     class Meta:
         model = models.User
         fields = ("first_name", "last_name", "email")
@@ -74,6 +75,8 @@ class SignUpForm(forms.ModelForm):
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Confirm Password"})
     )
+
+    username = forms.EmailField(label="Email")
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
